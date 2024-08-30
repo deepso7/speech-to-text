@@ -1,6 +1,17 @@
 import { useCallback, useState } from "react";
 import { Button } from "./components/ui/button";
 
+function encodeToLinear16(floatArray: Float32Array) {
+  const int16Array = new Int16Array(floatArray.length);
+  for (let i = 0; i < floatArray.length; i++) {
+    int16Array[i] = Math.max(
+      -32768,
+      Math.min(32767, Math.floor(floatArray[i] * 32768))
+    );
+  }
+  return int16Array.buffer;
+}
+
 function App() {
   const [ws, setWs] = useState<WebSocket | null>(null);
 
@@ -30,18 +41,11 @@ function App() {
       "audio-processor"
     );
 
-    // let count = 0;
     // Listen to the messages from the AudioProcessor
     audioProcessor.port.onmessage = (event) => {
-      const int16Data = event.data as Int16Array;
+      const linear16Buffer = encodeToLinear16(event.data);
 
-      // console.log("RECEIVED MSG", int16Data);
-
-      // if (count === 0) {
-      ws.send(JSON.stringify(Array.from(int16Data)));
-      // }
-
-      // count++;
+      ws.send(linear16Buffer);
     };
 
     mediaStreamSource.connect(audioProcessor);
