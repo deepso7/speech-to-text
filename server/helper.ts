@@ -37,48 +37,11 @@ export const createStream = (
     .on("data", (data: GoogResp) => {
       // console.dir(data, { depth: null });
       ws.send(JSON.stringify(data));
-
-      // const sentence: string[] = [];
-
-      // for (const r of data.results) {
-      //   if (r.isFinal) {
-      //     console.log("Final: ", r.alternatives[0].transcript);
-      //     return;
-      //   }
-
-      //   for (const a of r.alternatives) {
-      //     sentence.push(a.transcript);
-      //   }
-      // }
-
-      // console.log(sentence);
-      // const result = data.results[0];
-
-      // console.log("gg: ", result.alternatives[0].transcript);
-
-      // if (result.isFinal) {
-      //   console.log(`Transcription: ${result.alternatives[0].transcript}`);
-      //   // ws.send(JSON.stringify({ transcription: result.alternatives[0].transcript }));
-      // }
-
-      // console.dir({ data }, { depth: null });
-      // console.log(
-      //   `Transcription: ${
-      //     data.results[0] && data.results[0].alternatives[0].transcript
-      //   }`
-      // );
-
-      // const result = data.results[0];
-      // if (result.isFinal) {
-      //   console.log(`Transcription: ${result.alternatives[0].transcript}`);
-      //   ws.send(
-      //     JSON.stringify({ transcription: result.alternatives[0].transcript })
-      //   );
-      // }
     })
     .on("end", () => {
       console.log("Transcription ended.");
-      users.set(ws.data.socketId, { stream: null });
+      if (users.has(ws.data.socketId))
+        users.set(ws.data.socketId, { stream: null });
     });
 
   return stream;

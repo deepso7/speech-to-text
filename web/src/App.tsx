@@ -24,8 +24,6 @@ function App() {
   >("connect");
   const [sentences, setSentences] = useState<string[]>([]);
 
-  console.log(process.env.NODE_ENV);
-
   const connect = useCallback(() => {
     setConnectionState("connecting");
 

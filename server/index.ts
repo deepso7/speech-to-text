@@ -64,6 +64,8 @@ const server = Bun.serve<{ socketId: string }>({
       }
 
       user.stream?.end();
+
+      users.delete(ws.data.socketId);
     },
   },
 
