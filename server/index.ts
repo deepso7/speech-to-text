@@ -1,7 +1,10 @@
 import { randomUUID } from "node:crypto";
 import { createStream } from "./helper";
 
-const users = new Map<string, { stream: ReturnType<typeof createStream> }>();
+export const users = new Map<
+  string,
+  { stream: ReturnType<typeof createStream> | null }
+>();
 
 const server = Bun.serve<{ socketId: string }>({
   fetch(req, server) {
@@ -35,7 +38,20 @@ const server = Bun.serve<{ socketId: string }>({
         return;
       }
 
-      user.stream.write(message);
+      if (typeof message === "string") {
+        const data = JSON.parse(message) as { action: "mic-off" | "mic-on" };
+
+        if (data.action === "mic-off") {
+          user.stream?.end();
+        }
+      } else {
+        if (!user.stream) {
+          const stream = createStream(ws);
+          stream.write(message);
+
+          users.set(ws.data.socketId, { stream });
+        } else user.stream.write(message);
+      }
     },
 
     close(ws) {
@@ -47,7 +63,7 @@ const server = Bun.serve<{ socketId: string }>({
         return;
       }
 
-      user.stream.end();
+      user.stream?.end();
     },
   },
 

@@ -3,6 +3,9 @@ import { Terminal } from "lucide-react";
 
 import { Button } from "./components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "./components/ui/alert";
+import { MicComponent } from "./components/mic";
+import { useAtom } from "jotai";
+import { wsAtom } from "./lib/atoms";
 
 type GoogResp = {
   results: {
@@ -14,19 +17,8 @@ type GoogResp = {
   }[];
 };
 
-function encodeToLinear16(floatArray: Float32Array) {
-  const int16Array = new Int16Array(floatArray.length);
-  for (let i = 0; i < floatArray.length; i++) {
-    int16Array[i] = Math.max(
-      -32768,
-      Math.min(32767, Math.floor(floatArray[i] * 32768))
-    );
-  }
-  return int16Array.buffer;
-}
-
 function App() {
-  const [ws, setWs] = useState<WebSocket | null>(null);
+  const [ws, setWs] = useAtom(wsAtom);
   const [connectionState, setConnectionState] = useState<
     "connect" | "connecting" | "connected"
   >("connect");
@@ -56,39 +48,7 @@ function App() {
     newWs.onopen = () => {
       setConnectionState("connected");
     };
-  }, [ws]);
-
-  const startProcessing = useCallback(async () => {
-    if (!ws?.OPEN) {
-      alert("Connect to server first");
-      return;
-    }
-
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-
-    // const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    const audioContext = new window.AudioContext();
-
-    console.log(audioContext.sampleRate);
-
-    await audioContext.audioWorklet.addModule("audio-processor.js");
-
-    const mediaStreamSource = audioContext.createMediaStreamSource(stream);
-    const audioProcessor = new AudioWorkletNode(
-      audioContext,
-      "audio-processor"
-    );
-
-    // Listen to the messages from the AudioProcessor
-    audioProcessor.port.onmessage = (event) => {
-      const linear16Buffer = encodeToLinear16(event.data);
-
-      ws.send(linear16Buffer);
-    };
-
-    mediaStreamSource.connect(audioProcessor);
-    audioProcessor.connect(audioContext.destination);
-  }, [ws]);
+  }, [ws, setWs]);
 
   return (
     <div className="vertical center pt-8 space-y-4">
@@ -102,14 +62,7 @@ function App() {
         {connectionState}
       </Button>
 
-      <Button
-        onClick={startProcessing}
-        disabled={connectionState !== "connected"}
-      >
-        {connectionState !== "connected"
-          ? "Please connect first"
-          : "click here then start speaking something"}
-      </Button>
+      <MicComponent />
 
       <Sentences sentences={sentences} />
     </div>

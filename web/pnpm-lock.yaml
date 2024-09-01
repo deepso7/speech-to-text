@@ -20,15 +20,24 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      jotai:
+        specifier: ^2.9.3
+        version: 2.9.3(@types/react@18.3.5)(react@18.3.1)
       lucide-react:
         specifier: ^0.436.0
         version: 0.436.0(react@18.3.1)
+      next-themes:
+        specifier: ^0.3.0
+        version: 0.3.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react:
         specifier: ^18.3.1
         version: 18.3.1
       react-dom:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
+      sonner:
+        specifier: ^1.5.0
+        version: 1.5.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       tailwind-merge:
         specifier: ^2.5.2
         version: 2.5.2
@@ -907,6 +916,18 @@ packages:
     resolution: {integrity: sha512-2yTgeWTWzMWkHu6Jp9NKgePDaYHbntiwvYuuJLbbN9vl7DC9DvXKOB2BC3ZZ92D3cvV/aflH0osDfwpHepQ53w==}
     hasBin: true
 
+  jotai@2.9.3:
+    resolution: {integrity: sha512-IqMWKoXuEzWSShjd9UhalNsRGbdju5G2FrqNLQJT+Ih6p41VNYe2sav5hnwQx4HJr25jq9wRqvGSWGviGG6Gjw==}
+    engines: {node: '>=12.20.0'}
+    peerDependencies:
+      '@types/react': '>=17.0.0'
+      react: '>=17.0.0'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      react:
+        optional: true
+
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
 
@@ -992,6 +1013,12 @@ packages:
 
   natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
+
+  next-themes@0.3.0:
+    resolution: {integrity: sha512-/QHIrsYpd6Kfk7xakK4svpDI5mmXP0gfvCoJdGpZQ2TOrQZmsW0QxjaiLn8wbIKjtm4BTSqLoix4lxYYOnLJ/w==}
+    peerDependencies:
+      react: ^16.8 || ^17 || ^18
+      react-dom: ^16.8 || ^17 || ^18
 
   node-releases@2.0.18:
     resolution: {integrity: sha512-d9VeXT4SJ7ZeOqGX6R5EM022wpL+eWPooLI+5UpWn2jCT1aosUQEhQP214x33Wkwx3JQMvIm+tIoVOdodFS40g==}
@@ -1168,6 +1195,12 @@ packages:
   signal-exit@4.1.0:
     resolution: {integrity: sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw==}
     engines: {node: '>=14'}
+
+  sonner@1.5.0:
+    resolution: {integrity: sha512-FBjhG/gnnbN6FY0jaNnqZOMmB73R+5IiyYAw8yBj7L54ER7HB3fOSE5OFiQiE2iXWxeXKvg6fIP4LtVppHEdJA==}
+    peerDependencies:
+      react: ^18.0.0
+      react-dom: ^18.0.0
 
   source-map-js@1.2.0:
     resolution: {integrity: sha512-itJW8lvSA0TXEphiRoawsCksnlf8SyvmFzIhltqAHluXd88pkCd+cXJVHTDwdCr0IzwptSm035IHQktUu1QUMg==}
@@ -2066,6 +2099,11 @@ snapshots:
 
   jiti@1.21.6: {}
 
+  jotai@2.9.3(@types/react@18.3.5)(react@18.3.1):
+    optionalDependencies:
+      '@types/react': 18.3.5
+      react: 18.3.1
+
   js-tokens@4.0.0: {}
 
   js-yaml@4.1.0:
@@ -2137,6 +2175,11 @@ snapshots:
   nanoid@3.3.7: {}
 
   natural-compare@1.4.0: {}
+
+  next-themes@0.3.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+    dependencies:
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
 
   node-releases@2.0.18: {}
 
@@ -2300,6 +2343,11 @@ snapshots:
   shebang-regex@3.0.0: {}
 
   signal-exit@4.1.0: {}
+
+  sonner@1.5.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+    dependencies:
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
 
   source-map-js@1.2.0: {}
 
