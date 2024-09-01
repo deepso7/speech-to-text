@@ -1,0 +1,14 @@
+{
+  "name": "speech-to-text",
+  "scripts": {
+    "web": "bun --filter=web dev",
+    "server": "bun --filter=server dev"
+  },
+  "workspaces": [
+    "web",
+    "server"
+  ],
+  "devDependencies": {
+    "@types/bun": "latest"
+  }
+}
