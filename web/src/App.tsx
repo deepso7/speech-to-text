@@ -24,6 +24,8 @@ function App() {
   >("connect");
   const [sentences, setSentences] = useState<string[]>([]);
 
+  console.log(process.env.NODE_ENV);
+
   const connect = useCallback(() => {
     setConnectionState("connecting");
 
@@ -32,7 +34,11 @@ function App() {
       return;
     }
 
-    const newWs = new WebSocket("ws://localhost:3500");
+    const newWs = new WebSocket(
+      process.env.NODE_ENV === "production"
+        ? "wss://server.deepso.dev"
+        : "ws://localhost:3500"
+    );
     setWs(newWs);
 
     newWs.onmessage = (e) => {
