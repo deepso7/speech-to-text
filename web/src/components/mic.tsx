@@ -3,6 +3,7 @@ import { Mic, MicOff } from "lucide-react";
 import { Button } from "./ui/button";
 import { cn } from "../lib/utils";
 import { useWs } from "../lib/atoms";
+import { toast } from "sonner";
 
 function encodeToLinear16(floatArray: Float32Array) {
   const int16Array = new Int16Array(floatArray.length);
@@ -43,7 +44,8 @@ export const MicComponent: React.FC = () => {
 
   const startProcessing = useCallback(async () => {
     if (!ws?.OPEN) {
-      alert("Connect to server first");
+      toast.error("Please click on connect first");
+
       return;
     }
 
